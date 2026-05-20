@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>malak chan ♡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fff5f7;
+      --heading: #f5c8d0;
+      --pink-border: #fadadd;
+      --pink-pill: #fdeef0;
+      --pink-pill-text: #e8a0aa;
+      --text: #c9909a;
+      --text-light: #dbb0b8;
+      --white: #fffafb;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Animated floating hearts canvas background ── */
+    #heartCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 64px 24px 36px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 5.5rem);
+      font-weight: 700;
+      color: var(--heading);
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .divider {
+      text-align: center;
+      margin: 0 auto 36px;
+      font-size: 18px;
+      letter-spacing: 12px;
+      color: var(--pink-border);
+    }
+
+    /* ── Container ── */
+    .container {
+      position: relative;
+      z-index: 5;
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255, 250, 251, 0.82);
+      border: 1.5px solid var(--pink-border);
+      border-radius: 18px;
+      padding: 28px 32px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--heading);
+      margin-bottom: 14px;
+    }
+
+    /* ── Description ── */
+    .desc-display {
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--text);
+      min-height: 50px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .desc-display.placeholder-text { color: var(--text-light); font-style: italic; }
+
+    .desc-textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1.5px solid var(--pink-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      display: none;
+      line-height: 1.8;
+    }
+    .desc-textarea:focus { border-color: var(--heading); }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+
+    .btn {
+      padding: 7px 18px;
+      border-radius: 30px;
+      border: 1.5px solid var(--pink-border);
+      background: transparent;
+      color: var(--text-light);
+      font-size: 12px;
+      font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn:hover { border-color: var(--heading); color: var(--heading); }
+    .btn.primary { background: var(--pink-border); color: var(--text); border-color: var(--pink-border); }
+    .btn.primary:hover { background: var(--heading); color: var(--white); }
+
+    .saved-note { font-size: 11px; color: var(--heading); display: none; }
+    .saved-note.show { display: inline; }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .pill {
+      background: var(--pink-pill);
+      color: var(--pink-pill-text);
+      border-radius: 30px;
+      padding: 5px 16px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--pink-border);
+    }
+
+    footer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 20px;
+      color: var(--text-light);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="heartCanvas"></canvas>
+
+<header>
+  <h1>malak chan</h1>
+  <p class="subtitle">welcome to my little corner ♡</p>
+</header>
+
+<div class="divider">♡ · ♡ · ♡</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>♡ about me</h2>
+    <div class="desc-display" id="descDisplay"></div>
+  </div>
+
+  <div class="card">
+    <h2>✦ abt me</h2>
+    <div class="pills">
+      <span class="pill">i'm very annoying</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+      <span class="pill">baka</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>made with ♡ · malak chan</footer>
+
+<script>
+  // ── Floating hearts canvas ──
+  const canvas = document.getElementById('heartCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const HEART_COUNT = 28;
+  const hearts = [];
+
+  function heartPath(cx, cy, size) {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + size * 0.3);
+    ctx.bezierCurveTo(cx, cy, cx - size * 0.5, cy, cx - size * 0.5, cy - size * 0.3);
+    ctx.bezierCurveTo(cx - size * 0.5, cy - size * 0.7, cx, cy - size * 0.7, cx, cy - size * 0.3);
+    ctx.bezierCurveTo(cx, cy - size * 0.7, cx + size * 0.5, cy - size * 0.7, cx + size * 0.5, cy - size * 0.3);
+    ctx.bezierCurveTo(cx + size * 0.5, cy, cx, cy, cx, cy + size * 0.3);
+    ctx.closePath();
+  }
+
+  for (let i = 0; i < HEART_COUNT; i++) {
+    hearts.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      size: 8 + Math.random() * 18,
+      speed: 0.3 + Math.random() * 0.7,
+      drift: (Math.random() - 0.5) * 0.4,
+      opacity: 0.08 + Math.random() * 0.14,
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.02,
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const h of hearts) {
+      h.y -= h.speed;
+      h.x += h.drift;
+      h.rotation += h.rotSpeed;
+
+      if (h.y < -40) {
+        h.y = canvas.height + 40;
+        h.x = Math.random() * canvas.width;
+      }
+      if (h.x < -40) h.x = canvas.width + 40;
+      if (h.x > canvas.width + 40) h.x = -40;
+
+      ctx.save();
+      ctx.translate(h.x, h.y);
+      ctx.rotate(h.rotation);
+      ctx.globalAlpha = h.opacity;
+      ctx.fillStyle = '#f5c8d0';
+      heartPath(0, 0, h.size);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // ── Description ──
+  document.getElementById('descDisplay').textContent = 'eating baka';
+</script>
+</body>
+</html>
